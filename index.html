@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MetroMerger</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Load Leaflet from CDN-->
+	<script src="http://cdn.jsdelivr.net/leaflet/0.7.3/leaflet.js"></script>
+  <link rel="stylesheet" href="http://cdn.jsdelivr.net/leaflet/0.7.3/leaflet.css" />
+	<!-- Load town polygons and css from local directory -->
+	<script type="text/javascript" src="ct-towns-popchg.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+	<div id="map"></div>
+
+<script type="text/javascript">
+		var map = L.map('map').setView([41.5, -72.67], 9);
+		// customize source link to your GitHub repo
+		map.attributionControl
+		.setPrefix('View <a href="http://github.com/jackdougherty/otl-metromerger">open-source code on GitHub</a>, created with <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>');
+		new L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+	}).addTo(map);
+
+var geojson;
+var totalPop; // unsure if this is the right strategy for setting up this variable
+
+// style the initial map in gray tone
+function style(feature) {
+    return {
+        fillColor: 'gray',
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
+// display data when hovering
+function highlightFeature(e) {
+    var layer = e.target;
+    info.update(layer.feature.properties);
+}
+
+// when click on town polygon, style color to green
+// ALSO my goal is to insert operation that totals the value of each selected layer.feature.properties.Pop2010
+// but I clearly don't know how to do this yet
+function chooseFeature(e) {
+    var layer = e.target;
+
+    layer.setStyle({
+        fillColor: 'green',
+        fillOpacity: 0.7
+     });
+    // Insert a better operation to total all layers here or elsewhere
+    totalPop = layer.feature.properties.Pop2010;
+}
+
+// event listeners for hovering or clicking on town polygons
+function onEachFeature(feature, layer) {
+    layer.on({
+    	mouseover: highlightFeature,
+        click: chooseFeature
+    });
+}
+
+// set up the town map overlay
+geojson = L.geoJson(dataCtTowns, {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+
+// set up the info window
+var info = L.control();
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+};
+
+// update the control info window based on feature properties passed
+info.update = function (props) {
+	var winName =
+  this._div.innerHTML = '<h4>Click to combine Connecticut towns<br />into a merged metropolitan area</h4>' +
+	(props ? '<b>' + props.Town + '</b><br />' +
+  'Population 2010:' + '<br />' + (props ? comma(checkNull(props.Pop2010,false)) : '---') + '<br />' : 'Hover over a town') +
+	(props ? '<b>' + 'Merged Metropolitan Area:' + '</b><br />' +
+  'Total Population:' + '<br />' + (props ? comma(checkNull(totalPop,false)) : '---') : '');
+};
+info.addTo(map);
+
+
+// functions from Alvin Chang to display data in info window
+function checkNull(val,pct) {
+  if (val > -99999999999) {
+    if (pct) {
+      return val = Math.round(val*10)/10 + "%";
+    } else {
+      return val = Math.round(val*10)/10;
+    }
+  } else {
+    return "No data";
+  }
+}
+function checkThePct(a) {
+  if (a > -1) {
+    return Math.round(a*1000)/10 + "%";
+  } else {
+    return "--";
+  }
+}
+function comma(val){
+  num = val;
+  val = Math.round(val);
+  while (/(\d+)(\d{3})/.test(val.toString())){
+    val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+  }
+  if (val == "-") {
+    return val;
+  } else if (num < 0) {
+    return "(" + val.replace("-","")+")";
+  } else {
+    return "" + val;
+  }
+}
+</script>
+</body>
+</html>
