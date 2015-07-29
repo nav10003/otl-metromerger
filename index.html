@@ -7,8 +7,8 @@
 	<!-- Load Leaflet from CDN-->
 	<script src="http://cdn.jsdelivr.net/leaflet/0.7.3/leaflet.js"></script>
   <link rel="stylesheet" href="http://cdn.jsdelivr.net/leaflet/0.7.3/leaflet.css" />
-	<!-- Load town polygons and css from local directory -->
-	<script type="text/javascript" src="ct-towns-popchg.js"></script>
+	<!-- Load data.js (town polygons) and css from local directory -->
+	<script type="text/javascript" src="data.js"></script>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -66,7 +66,7 @@ function onEachFeature(feature, layer) {
 }
 
 // set up the town map overlay
-geojson = L.geoJson(dataCtTowns, {
+geojson = L.geoJson(data, {
     style: style,
     onEachFeature: onEachFeature
 }).addTo(map);
