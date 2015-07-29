@@ -24,7 +24,7 @@
 	}).addTo(map);
 
 var geojson;
-var totalPop; // unsure if this is the right strategy for setting up this variable
+var totalPop = 0; // unsure if this is the right strategy for setting up this variable
 
 // style the initial map in gray tone
 function style(feature) {
@@ -55,7 +55,7 @@ function chooseFeature(e) {
         fillOpacity: 0.7
      });
     // Insert a better operation to total all layers here or elsewhere
-    totalPop = layer.feature.properties.Pop2010;
+    totalPop += layer.feature.properties.Pop2010;
 }
 
 // event listeners for hovering or clicking on town polygons
