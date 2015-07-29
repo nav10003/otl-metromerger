@@ -7,7 +7,8 @@ http://jackdougherty.github.io/otl-metromerger
 ## To Do
 - current version does not yet display total population of each selected polygon
 - need to insert an operation or function to sum the total values of each selected layer.feature.properties.Pop2010
-- add additional data variables (taxable property, school districts, etc.)
+- see index.html totalPop variable (lines 27 and 47+)
+- later add additional data variables (taxable property, school districts, etc.) and improve display
 
 ## Notes on building this
 1) Begin with Leaflet choropleth tutorial at http://leafletjs.com/examples/choropleth.html
@@ -31,3 +32,5 @@ http://jackdougherty.github.io/otl-metromerger
 - At the bottom of the new file, add this:
   - ;
 - Rename file suffix as .js, place inside local directory, and upload in the Leaflet HTML index template
+
+5) In Leaflet index template, credit to Alvin Chang for inspiration and functions to display info window data, borrowed from CT Mirror Leaflet visualizations such as http://projects.ctmirror.org/content/2014/05/raceSchools/
