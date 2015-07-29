@@ -24,7 +24,7 @@
 	}).addTo(map);
 
 var geojson;
-var totalPop = 0; // unsure if this is the right strategy for setting up this variable
+var totalPop = 0; 
 
 // style the initial map in gray tone
 function style(feature) {
@@ -44,9 +44,7 @@ function highlightFeature(e) {
     info.update(layer.feature.properties);
 }
 
-// when click on town polygon, style color to green
-// ALSO my goal is to insert operation that totals the value of each selected layer.feature.properties.Pop2010
-// but I clearly don't know how to do this yet
+// when click on town polygon, style color to green, and increment total value of each selected layer.feature.properties.Pop2010
 function chooseFeature(e) {
     var layer = e.target;
 
@@ -54,7 +52,7 @@ function chooseFeature(e) {
         fillColor: 'green',
         fillOpacity: 0.7
      });
-    // Insert a better operation to total all layers here or elsewhere
+    // The addition assignment operator (+=) adds a value to a variable
     totalPop += layer.feature.properties.Pop2010;
 }
 
