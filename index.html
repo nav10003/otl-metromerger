@@ -47,6 +47,7 @@ function highlightFeature(e) {
 // when click on town polygon, style color to green, and increment total value of each selected layer.feature.properties.Pop2010
 function chooseFeature(e) {
     var layer = e.target;
+    info.update(layer.feature.properties);
 
     layer.setStyle({
         fillColor: 'green',
