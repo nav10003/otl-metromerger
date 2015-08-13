@@ -25,7 +25,10 @@
 
 	var geojson;
 	var totalPop = 0;
-	var totalInc = 0;
+	var totalIncome = 0;
+	var totalTaxable = 0;
+	var metroPerCapIncome = 0;
+	var metroPerCapTaxable = 0;
 
 	// style the initial map in gray tone
 	function style(feature) {
@@ -54,7 +57,11 @@
      });
     // The addition assignment operator (+=) adds a value to a variable
     totalPop += layer.feature.properties.PopACS2013;
-		totalInc += layer.feature.properties.IncACS2013;
+		totalIncome += layer.feature.properties.IncACS2013;
+		totalTaxable += layer.feature.properties.ENGLY2012;
+		// calculates values per person
+		metroPerCapIncome = totalIncome/totalPop;
+		metroPerCapTaxable = totalTaxable/totalPop;
     // updates display
     info.update(layer.feature.properties);
 	}
@@ -86,10 +93,14 @@
 		var winName =
   	this._div.innerHTML =
 		'<h4>Click to merge Connecticut towns into<br />a hypothetical metropolitan region:</h4>' +
-		(props ? '<b>' + props.Town + '</b>' + '<br />' + comma(props.PopACS2013) + ' people' +
-		'<br />' + comma(props.IncACS2013) + ' total income' + '<br /><b>' + 'Merged region (2013 data)' +
-		'</b><br />' + (props ? comma(checkNull(totalPop,false)) : '---') + ' people' + '<br />' +
-		(props ? comma(checkNull(totalInc,false)) : '---') + ' total income' : 'Hover over a town');
+		(props ? '<b>' + props.Town + '</b>' + '<br />' +
+		comma(props.PopACS2013) + ' people' + '<br />$' +
+		comma(props.IncACS2013/props.PopACS2013) + ' income per capita' + '<br />$' + 
+		comma(props.ENGLY2012/props.PopACS2013) + ' taxable property per capita' + '<br /><b>' +
+		'Merged region (2012-13 data)' + '</b><br />' +
+		(props ? comma(checkNull(totalPop,false)) : '---') + ' people' + '<br />$' +
+		(props ? comma(checkNull(metroPerCapIncome,false)) : '---') + ' income per capita' + '<br />$' +
+		(props ? comma(checkNull(metroPerCapTaxable,false)) : '---') + ' taxable property per capita': 'Hover over a town');
 	};
 	info.addTo(map);
 
