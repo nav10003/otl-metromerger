@@ -1,7 +1,7 @@
 # otl-metromerger
 Metropolitan merger simulation with Leaflet choropleth map framework for On The Line project (http://OnTheLine.trincoll.edu)
 
-## Demo-in-progress
+## Demo
 http://jackdougherty.github.io/otl-metromerger
 
 ## To Do
@@ -25,12 +25,15 @@ http://jackdougherty.github.io/otl-metromerger
 - Use ogre to ogre web client (http://ogre.adc4gis.com/) to convert zipped shapefile to geojson
 - Copy and paste the geojson output into a new file, and modify into json this way:
 - At top of new file, declare contents as a variable by adding this text:
-  - var data =
-- At the bottom of the new file, add this:
-  - ;
+```
+var data =
+```
+- At the bottom of the new file, add a semicolon (;)
 - Rename file suffix as .js, place inside local directory, and upload in the Leaflet HTML index template
 
-5) In Leaflet index template, credit to Alvin Chang for inspiration and functions to display info window data, borrowed from CT Mirror Leaflet visualizations such as http://projects.ctmirror.org/content/2014/05/raceSchools/
+5) See code comments in the Leaflet index.html template
 
 ## Credits
-Thanks to @erose for helping me with the JavaScript logic
+- Thanks to the creator of the Leaflet Interactive Choropleth Map tutorial (http://leafletjs.com/examples/choropleth.html)
+- Thanks to @alvinschang at CT Mirror, since this map borrows functions to display info window data, based on examples such as http://projects.ctmirror.org/content/2014/05/raceSchools/
+- Thanks to @erose for helping me with the JavaScript logic
