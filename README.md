@@ -4,6 +4,14 @@ Metropolitan merger simulation with Leaflet choropleth map framework for On The 
 ## Demo
 http://jackdougherty.github.io/otl-metromerger
 
+## To Do
+- add reset button to clear selected polygons (remove and readd geoJson layer? or just refresh browser?)
+- can click event listener be modified to toggle? Turn off selected polygons that have already been turned on?
+- find way to present infowindow data as a table or grid
+- add link to data source
+- start a second version: a School District merger tool, possibly with CT only data layer, or EdBuild national data layer?
+
+
 ## Steps to construct this
 1) Begin with Leaflet choropleth tutorial at http://leafletjs.com/examples/choropleth.html
 
@@ -34,10 +42,3 @@ var data =
 - Thanks to the creator of the Leaflet Interactive Choropleth Map tutorial (http://leafletjs.com/examples/choropleth.html)
 - Thanks to @alvinschang at CT Mirror, since this map borrows functions to display info window data, based on examples such as http://projects.ctmirror.org/content/2014/05/raceSchools/
 - Thanks to @erose for helping me with the JavaScript logic
-
-## To Do
-- add reset button to refresh browser
-- add method to unclick a town that has previously been clicked
-- find way to present infowindow data as a table or grid
-- add link to data source
-- decide whether these are the most appropriate data points to show (race, school data?)
