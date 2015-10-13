@@ -1,18 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>MetroMerger</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Load Leaflet from CDN-->
-	<script src="http://cdn.jsdelivr.net/leaflet/0.7.3/leaflet.js"></script>
-  <link rel="stylesheet" href="http://cdn.jsdelivr.net/leaflet/0.7.3/leaflet.css" />
-	<!-- Load data.js (town polygons) and css from local directory -->
-	<script type="text/javascript" src="data.js"></script>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-	<div id="map"></div>
 
 <script type="text/javascript">
 	var map = L.map('map').setView([41.5, -72.67], 9);
@@ -55,55 +40,22 @@
         fillColor: 'green',
         fillOpacity: 0.7
      });
-		 if (layer.setStyle=true){
-			 totalPop += layer.feature.properties.PopACS2013;
-			 totalIncome += layer.feature.properties.IncACS2013;
-			 totalTaxable += layer.feature.properties.ENGLY2012;
-			 // calculates values per person
-			 metroPerCapIncome = totalIncome/totalPop;
-			 metroPerCapTaxable = totalTaxable/totalPop;
-			 // updates display
-	     info.update(layer.feature.properties);
-			 }
-			 else{
-				 totalPop -= layer.feature.properties.PopACS2013;
-				 totalIncome -= layer.feature.properties.IncACS2013;
-				 totalTaxable -= layer.feature.properties.ENGLY2012;
-				 // calculates values per person
-				 metroPerCapIncome = totalIncome/totalPop;
-				 metroPerCapTaxable = totalTaxable/totalPop;
-				 // updates display
-		     info.update(layer.feature.properties);
-				 }
-
-	}
-
-	function removeStyle(e){
-		var layer = e.target;
-		layer.setStyle({
-        fillColor: 'green',
-        fillOpacity: 0.7
-		});
-		 if (layer.setStyle=true){
-			 layer.redraw();
-			 totalPop -= layer.feature.properties.PopACS2013;
-			 totalIncome -= layer.feature.properties.IncACS2013;
-			 totalTaxable -= layer.feature.properties.ENGLY2012;
-			 // calculates values per person
-			 metroPerCapIncome = totalIncome/totalPop;
-			 metroPerCapTaxable = totalTaxable/totalPop;
-			 // updates display
-	     info.update(layer.feature.properties);
-			 }
-
+    // The addition assignment operator (+=) adds a value to a variable
+    totalPop += layer.feature.properties.PopACS2013;
+		totalIncome += layer.feature.properties.IncACS2013;
+		totalTaxable += layer.feature.properties.ENGLY2012;
+		// calculates values per person
+		metroPerCapIncome = totalIncome/totalPop;
+		metroPerCapTaxable = totalTaxable/totalPop;
+    // updates display
+    info.update(layer.feature.properties);
 	}
 
 	// event listeners for hovering or clicking on town polygons
 	function onEachFeature(feature, layer) {
     layer.on({
     	mouseover: highlightFeature,
-        click: chooseFeature,
-
+        click: chooseFeature
     });
 	}
 
@@ -128,7 +80,7 @@
 		'<h4>Click to merge Connecticut towns into<br />a hypothetical metropolitan region:</h4>' +
 		(props ? '<b>' + props.Town + '</b>' + '<br />' +
 		comma(props.PopACS2013) + ' people' + '<br />$' +
-		comma(props.IncACS2013/props.PopACS2013) + ' income per capita' + '<br />$' +
+		comma(props.IncACS2013/props.PopACS2013) + ' income per capita' + '<br />$' + 
 		comma(props.ENGLY2012/props.PopACS2013) + ' taxable property per capita' + '<br /><b>' +
 		'Merged region (2012-13 data)' + '</b><br />' +
 		(props ? comma(checkNull(totalPop,false)) : '---') + ' people' + '<br />$' +
@@ -173,5 +125,3 @@
 	  }
 	}
 </script>
-</body>
-</html>
