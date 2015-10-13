@@ -27,10 +27,10 @@
 	<p id="district3"></p>
 	<p id="district4"></p>
 	<p id="district5"></p>
-	
+
 	</input>
 	</form>
- 
+
 <script type="text/javascript">
 	var map = L.map('map').setView([41.5, -72.67], 9);
 	// customize source link to your GitHub repo
@@ -62,30 +62,89 @@
     info.update(layer.feature.properties);
 	}
 	// when click on town polygon, style color to green, and increment total value of each selected layer.feature.properties.Pop2010
-	
+
 	// create the empty arrays for display
 	var districtOne = [];
 	document.getElementById("district1").innerHTML = districtOne;
-	
+
 	var districtTwo = [];
 	document.getElementById("district2").innerHTML = districtTwo;
-	
+
 	var districtThree = [];
 	document.getElementById("district2").innerHTML = districtThree;
-	
+
 	var districtFour = [];
 	document.getElementById("district2").innerHTML = districtFour;
-	
+
 	var districtFive = [];
 	document.getElementById("district2").innerHTML = districtFive;
-			
+
 	function chooseFeature(e) {
 		var layer = e.target;
 		var townName = layer.feature.properties.Town;
 		layer.setStyle({
 			fillColor: 'green',
-			fillOpacity: 0.7			
+			fillOpacity: 0.7
 		});
+
+		
+
+		if (document.getElementById('D1').checked){//(districts.District[4].checked = true){
+
+			var arIndex = districtOne.indexOf(' '+townName);   //$.inArray(townName,districtOne);
+			
+			districtOne.push(' '+townName);
+				document.getElementById("district1").innerHTML = districtOne;
+				layer.setStyle({
+					fillColor: '#FF0000',
+					fillOpacity: 0.7
+				});
+			/*
+			if (arIndex > -1){
+				districtOne.push(' '+arIndex);
+				districtOne.splice(arIndex,1);
+				document.getElementById("district1").innerHTML = districtOne;
+			}else{
+				districtOne.push(' '+townName);
+				document.getElementById("district1").innerHTML = districtOne;
+				layer.setStyle({
+					fillColor: '#FF0000',
+					fillOpacity: 0.7
+				});
+			}
+			*/
+
+		} else if (document.getElementById('D2').checked){//(districts.District[3].checked = true){ //do the same for D2, etc.
+			districtTwo.push(' '+layer.feature.properties.Town);
+			document.getElementById("district2").innerHTML = districtTwo;
+			layer.setStyle({
+				fillColor: '#0080FF',
+				fillOpacity: 0.7
+			});
+		} else if (document.getElementById('D3').checked){//(districts.District[3].checked = true){ //do the same for D2, etc.
+			districtThree.push(' '+layer.feature.properties.Town);
+			document.getElementById("district3").innerHTML = districtThree;
+			layer.setStyle({
+				fillColor: '#FFFF00',
+				fillOpacity: 0.7
+			});
+		} else if (document.getElementById('D4').checked){//(districts.District[3].checked = true){ //do the same for D2, etc.
+			districtFour.push(' '+layer.feature.properties.Town);
+			document.getElementById("district4").innerHTML = districtFour;
+			layer.setStyle({
+				fillColor: '#FF8000',
+				fillOpacity: 0.7
+			});
+		} else if (document.getElementById('D5').checked){//(districts.District[3].checked = true){ //do the same for D2, etc.
+			districtFive.push(' '+layer.feature.properties.Town);
+			document.getElementById("district5").innerHTML = districtFive;
+			layer.setStyle({
+				fillColor: '#FA58F4',
+				fillOpacity: 0.7
+			});
+		} else {
+			// error popup - make sure a radio button is checked
+		}
 		
 		// The addition assignment operator (+=) adds a value to a variable
 		if (layer.setStyle = true){
@@ -97,63 +156,7 @@
 			metroPerCapTaxable = totalTaxable/totalPop;
 			}
 
-		if (document.getElementById('D1').checked){//(districts.District[4].checked = true){
-			
-			var arIndex = districtOne.indexOf(' '+townName);   //$.inArray(townName,districtOne);
-			/*if (arIndex >= -1){
-				districtOne.splice(arIndex,1);
-				layer.setStyle({
-					fillColor: 'gray',
-					fillOpacity: 0.7			
-				});
-				}
-			*/
-			if (arIndex > -1){
-				districtOne.splice(arIndex,1);
-				document.getElementById("district1").innerHTML = districtOne;
-			}else{
-				districtOne.push(' '+townName);
-				document.getElementById("district1").innerHTML = districtOne;
-				layer.setStyle({
-					fillColor: '#FF0000',
-					fillOpacity: 0.7
-				});
-			}
-			
-			
-		} else if (document.getElementById('D2').checked){//(districts.District[3].checked = true){ //do the same for D2, etc.
-			districtTwo.push(' '+layer.feature.properties.Town);
-			document.getElementById("district2").innerHTML = districtTwo;
-			layer.setStyle({
-				fillColor: '#E31A1C',
-				fillOpacity: 0.7
-			});
-		} else if (document.getElementById('D3').checked){//(districts.District[3].checked = true){ //do the same for D2, etc.
-			districtThree.push(' '+layer.feature.properties.Town);
-			document.getElementById("district3").innerHTML = districtThree;
-			layer.setStyle({
-				fillColor: '#E31A1C',
-				fillOpacity: 0.7
-			});
-		} else if (document.getElementById('D4').checked){//(districts.District[3].checked = true){ //do the same for D2, etc.
-			districtFour.push(' '+layer.feature.properties.Town);
-			document.getElementById("district4").innerHTML = districtFour;
-			layer.setStyle({
-				fillColor: '#E31A1C',
-				fillOpacity: 0.7
-			});
-		} else if (document.getElementById('D5').checked){//(districts.District[3].checked = true){ //do the same for D2, etc.
-			districtFive.push(' '+layer.feature.properties.Town);
-			document.getElementById("district5").innerHTML = districtFive;
-			layer.setStyle({
-				fillColor: '#E31A1C',
-				fillOpacity: 0.7
-			});
-		} else {
-			// error popup - make sure a radio button is checked
-		}	
-			
-			
+
 
 	// updates display
     info.update(layer.feature.properties);
@@ -167,10 +170,10 @@
 		totalTaxable -= layer.feature.properties.ENGLY2012;
 		metroPerCapIncome = totalIncome/totalPop;
 		metroPerCapTaxable = totalTaxable/totalPop;
-		
+
 		info.update(layer.feature.properties);
 		}
-	
+
 	// event listeners for hovering or clicking on town polygons
 	function onEachFeature(feature, layer) {
     layer.on({
@@ -179,13 +182,13 @@
 		dblclick: resetFeature
     });
 	}
-	
+
 	// set up the town map overlay
 	geojson = L.geoJson(data, {
     style: style,
     onEachFeature: onEachFeature
 	}).addTo(map);
-		
+
 	// set up the info window
 	var info = L.control( {position: 'bottomright'} ); // places info box over Long Island
 	info.onAdd = function (map) {
@@ -193,7 +196,7 @@
     this.update();
     return this._div;
 	};
-	
+
 	// update the control info window based on feature properties passed
 	info.update = function (props) {
 		var winName =
@@ -201,7 +204,7 @@
 		'<h4>Click to merge Connecticut towns into<br />a hypothetical metropolitan region:</h4>' +
 		(props ? '<b>' + props.Town + '</b>' + '<br />' +
 		comma(props.PopACS2013) + ' people' + '<br />$' +
-		comma(props.IncACS2013/props.PopACS2013) + ' income per capita' + '<br />$' + 
+		comma(props.IncACS2013/props.PopACS2013) + ' income per capita' + '<br />$' +
 		comma(props.ENGLY2012/props.PopACS2013) + ' taxable property per capita' + '<br /><b>' +
 		'Merged region (2012-13 data)' + '</b><br />' +
 		(props ? comma(checkNull(totalPop,false)) : '---') + ' people' + '<br />$' +
