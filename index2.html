@@ -32,7 +32,7 @@
 	</form>
 
 <script type="text/javascript">
-	var map = L.map('map').setView([41.5, -72.67], 9);
+    var map = L.map('map',{doubleClickZoom: false}).setView([41.5, -72.67], 9);
 	// customize source link to your GitHub repo
 	map.attributionControl
 	.setPrefix('View <a href="http://github.com/jackdougherty/otl-metromerger">open-source code on GitHub</a>, created with <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>');
@@ -58,10 +58,22 @@
 	}
 	// display data when hovering
 	function highlightFeature(e) {
-    var layer = e.target;
-    info.update(layer.feature.properties);
-	}
-	// when click on town polygon, style color to green, and increment total value of each selected layer.feature.properties.Pop2010
+        var layer = e.target;
+        layer.setStyle({
+            fillColor: 'green',
+            fillOpacity: 0.7
+        });
+        info.update(layer.feature.properties);
+    }
+    // de-green when mouseout
+    function unhighlightFeature(e) {
+        var layer = e.target;
+        layer.setStyle({
+            fillColor: 'gray',
+            fillOpacity: 0.3
+        });
+        info.update(layer.feature.properties);
+    }
 
 	// create the empty arrays for display
 	var districtOne = [];
@@ -81,24 +93,29 @@
 
 	function chooseFeature(e) {
 		var layer = e.target;
-		var townName = layer.feature.properties.Town;
-		layer.setStyle({
-			fillColor: 'green',
+        var townName = layer.feature.properties.Town;
+        layer.setStyle({
+			fillColor: 'gray',
 			fillOpacity: 0.7
 		});
 
-		
+	    alert("got a click");	
 
 		if (document.getElementById('D1').checked){//(districts.District[4].checked = true){
-
-			//var arIndex = districtOne.indexOf(' '+townName);   //$.inArray(townName,districtOne);
+            
+            //if(districtOne.indexOf(' '+townName) < -1) {
+                alert("hi"); //town already added!" + districtOne.indexOf(' '+townName) );
+            //}  //$.inArray(townName,districtOne);
 			
 			districtOne.push(' '+townName);
-				document.getElementById("district1").innerHTML = districtOne;
-				layer.setStyle({
-					fillColor: '#FF0000',
-					fillOpacity: 0.7
-				});
+			document.getElementById("district1").innerHTML = districtOne;
+			layer.setStyle({
+                fillColor: '#FF0000',
+				fillOpacity: 0.7
+                });
+            //layer.addEventListener('click', function(e) {
+            //    alert(e.latlng);
+            //    });
 		
 		
 			/*
@@ -144,7 +161,8 @@
 				fillColor: '#FA58F4',
 				fillOpacity: 0.7
 			});
-		} else {
+        } else {
+            alert("please choose a district");
 			// error popup - make sure a radio button is checked
 		}
 		
@@ -156,32 +174,42 @@
 		// calculates values per person
 			metroPerCapIncome = totalIncome/totalPop;
 			metroPerCapTaxable = totalTaxable/totalPop;
-			}
+	    }
+        //resetFeature(e);
+        //resetStyle(layer);
 
+        // updates display
+        info.update(layer.feature.properties);
+    }
 
-
-	// updates display
-    info.update(layer.feature.properties);
-	}
-
-		// create ability to clear selections
+	// create ability to clear selections
 	function resetFeature(e){
-		geojson.resetStyle(e.target);
-		totalPop -= layer.feature.properties.PopACS2013;
-		totalIncome -= layer.feature.properties.IncACS2013;
-		totalTaxable -= layer.feature.properties.ENGLY2012;
-		metroPerCapIncome = totalIncome/totalPop;
-		metroPerCapTaxable = totalTaxable/totalPop;
+ 
+		var layer = e.target;
+        var townName = layer.feature.properties.Town;
+		layer.setStyle({
+			fillColor: 'gray',
+			fillOpacity: 0.9
+		});
+
+       //var layer = e.target;
+        //geojson.resetStyle(layer);
+		//totalPop -= layer.feature.properties.PopACS2013;
+		//totalIncome -= layer.feature.properties.IncACS2013;
+		//totalTaxable -= layer.feature.properties.ENGLY2012;
+		//metroPerCapIncome = totalIncome/totalPop;
+		//metroPerCapTaxable = totalTaxable/totalPop;
 
 		info.update(layer.feature.properties);
-		}
+	}
 
 	// event listeners for hovering or clicking on town polygons
 	function onEachFeature(feature, layer) {
     layer.on({
-    	mouseover: highlightFeature,
+        mouseover: highlightFeature,
+        mouseout: unhighlightFeature,
         click: chooseFeature,
-		dblclick: resetFeature
+		//dblclick: resetFeature
     });
 	}
 
@@ -194,15 +222,15 @@
 	// set up the info window
 	var info = L.control( {position: 'bottomright'} ); // places info box over Long Island
 	info.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-    this.update();
-    return this._div;
+        this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+        this.update();
+        return this._div;
 	};
 
 	// update the control info window based on feature properties passed
 	info.update = function (props) {
 		var winName =
-  	this._div.innerHTML =
+  	    this._div.innerHTML =
 		'<h4>Click to merge Connecticut towns into<br />a hypothetical metropolitan region:</h4>' +
 		(props ? '<b>' + props.Town + '</b>' + '<br />' +
 		comma(props.PopACS2013) + ' people' + '<br />$' +
