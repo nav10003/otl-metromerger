@@ -27,16 +27,16 @@
 	}
 	
 	.merged_stats {
-		height:60px;
+		height:auto;
 	}
 	
 	#accordion .ui-accordion-content { padding: 15px; }
 	</style>
 </head>
 <body style='font: 14px/16px Arial, Helvetica, sans-serif'>
-	<div id="map" style="position:absolute;top:10px;left:10px;"></div>
+	<div id="map" style="position:absolute;top:0px;left:0px;"></div>
 	
-	<div id="accordion" style="position:absolute;top:10px;right:10px;width:300px;font: 14px/16px Arial, Helvetica, sans-serif">
+	<div id="accordion" style="position:absolute;top:1%;right:1%;width:23%;font: 14px/16px Arial, Helvetica, sans-serif">
 	  <h3 id="district1_title">District 1</h3>
 	  <div>
 		<div id="district1_text" class="merged_stats">No towns selected</div>
@@ -64,11 +64,11 @@
 	  </div>
 	</div>
 	<br />
-	<a href='javascript:export_csv()' style='position:absolute;top:520px;'>Export to text file</a>
+	<a href='javascript:export_csv()' style='position:absolute;top:2%;left:4%;'>Export to text file</a>
 
 <script type="text/javascript">
 
-	var map = L.map('map').setView([41.5, -72.67], 9);
+	var map = L.map('map',{doubleClickZoom: false}).setView([41.5, -72.67], 9);
 	// customize source link to your GitHub repo
 	map.attributionControl
 	.setPrefix('View <a href="http://github.com/jackdougherty/otl-metromerger">open-source code on GitHub</a>, created with <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>');
